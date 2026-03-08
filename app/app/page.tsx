@@ -1,7 +1,6 @@
 import Link from "next/link"
 import { auth } from "@clerk/nextjs/server"
-import { getUserByClerkId } from "@/db/queries"
-import { listSitsAction } from "@/actions/list-sits"
+import { getUserByClerkId, listOpenSits } from "@/db/queries"
 import { SitList } from "@/components/sit-list"
 import { PollingWrapper } from "@/components/polling-wrapper"
 import { EmptyState } from "@/components/empty-state"
@@ -17,7 +16,7 @@ export default async function BoardPage() {
     currentUserId = user?.id ?? null
   }
 
-  const sits = await listSitsAction()
+  const sits = await listOpenSits()
   const hasSits = sits.length > 0
 
   return (
