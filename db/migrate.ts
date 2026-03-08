@@ -6,31 +6,8 @@
  * Usage: pnpm db:migrate
  */
 
-import * as fs from "fs"
-import * as path from "path"
+import "./env" // Load .env.local, validate DATABASE_URL
 import { Pool } from "@neondatabase/serverless"
-
-// Load .env.local
-const envPath = path.resolve(process.cwd(), ".env.local")
-if (fs.existsSync(envPath)) {
-  const envContent = fs.readFileSync(envPath, "utf-8")
-  for (const line of envContent.split("\n")) {
-    const trimmed = line.trim()
-    if (!trimmed || trimmed.startsWith("#")) continue
-    const eqIdx = trimmed.indexOf("=")
-    if (eqIdx === -1) continue
-    const key = trimmed.slice(0, eqIdx)
-    const val = trimmed.slice(eqIdx + 1)
-    if (!process.env[key]) {
-      process.env[key] = val
-    }
-  }
-}
-
-if (!process.env.DATABASE_URL) {
-  console.error("DATABASE_URL not set. Add it to .env.local")
-  process.exit(1)
-}
 
 const pool = new Pool({ connectionString: process.env.DATABASE_URL })
 
