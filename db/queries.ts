@@ -255,7 +255,12 @@ export async function cancelSit(
  * Ordered by starts_at ASC. Joins with users for host display_name.
  */
 export async function listOpenSits(): Promise<
-  (Sit & { hostDisplayName: string })[]
+  (Sit & {
+    hostDisplayName: string
+    hostTimezone: string
+    hostBio: string | null
+    hostOpenToBeginners: boolean | null
+  })[]
 > {
   const twentyMinAgo = sql`now() - interval '20 minutes'`
 
@@ -275,6 +280,9 @@ export async function listOpenSits(): Promise<
       updatedAt: sits.updatedAt,
       cancelledAt: sits.cancelledAt,
       hostDisplayName: users.displayName,
+      hostTimezone: users.timezone,
+      hostBio: users.bio,
+      hostOpenToBeginners: users.openToBeginners,
     })
     .from(sits)
     .innerJoin(users, eq(sits.hostUserId, users.id))

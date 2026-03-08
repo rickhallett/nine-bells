@@ -35,7 +35,7 @@ export function JoinButton({ sitId }: { sitId: string }) {
             Joining
           </span>
         ) : (
-          "Join"
+          "Sit together"
         )}
       </button>
       {error && (

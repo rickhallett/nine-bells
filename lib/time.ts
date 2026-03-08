@@ -13,3 +13,12 @@ export function formatSitTime(date: Date): string {
 export function formatRelativeTime(date: Date): string {
   return formatDistanceToNow(date, { addSuffix: true })
 }
+
+/**
+ * Format an IANA timezone for display.
+ * "Europe/London" → "London", "America/New_York" → "New York"
+ */
+export function formatTimezone(tz: string): string {
+  const city = tz.split("/").pop() ?? tz
+  return city.replace(/_/g, " ")
+}

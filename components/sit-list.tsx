@@ -15,9 +15,22 @@ export function SitList({ sits, currentUserId }: SitListProps) {
     <div>
       {/* Available Now */}
       <section>
-        <h2 className="font-serif text-sm font-medium uppercase tracking-widest text-muted">
-          Available Now
-        </h2>
+        <div className="flex items-center gap-2.5">
+          {availableNow.length > 0 && (
+            <span className="relative flex h-2.5 w-2.5">
+              <span className="absolute inline-flex h-full w-full animate-[pulse-slow_3s_ease-in-out_infinite] rounded-full bg-success opacity-60" />
+              <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-success" />
+            </span>
+          )}
+          <h2 className="font-serif text-sm font-medium uppercase tracking-widest text-muted">
+            Available Now
+            {availableNow.length > 0 && (
+              <span className="ml-1.5 normal-case tracking-normal">
+                ({availableNow.length})
+              </span>
+            )}
+          </h2>
+        </div>
         {availableNow.length === 0 ? (
           <p className="mt-4 text-sm text-muted">
             No one available right now.
@@ -42,6 +55,11 @@ export function SitList({ sits, currentUserId }: SitListProps) {
       <section>
         <h2 className="font-serif text-sm font-medium uppercase tracking-widest text-muted">
           Upcoming
+          {upcoming.length > 0 && (
+            <span className="ml-1.5 normal-case tracking-normal">
+              ({upcoming.length})
+            </span>
+          )}
         </h2>
         {upcoming.length === 0 ? (
           <p className="mt-4 text-sm text-muted">

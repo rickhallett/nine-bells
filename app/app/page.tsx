@@ -21,9 +21,12 @@ export default async function BoardPage() {
 
   return (
     <PollingWrapper>
-      <h1 className="font-serif text-3xl font-medium tracking-tight">
-        ninebells
-      </h1>
+      <div>
+        <h1 className="font-serif text-3xl font-medium tracking-tight">
+          ninebells
+        </h1>
+        <p className="mt-1 text-sm text-muted">Who&rsquo;s sitting?</p>
+      </div>
 
       {hasSits ? (
         <div className="mt-8">
@@ -31,8 +34,8 @@ export default async function BoardPage() {
         </div>
       ) : (
         <EmptyState
-          title="No sits right now."
-          description="Be the first to open one."
+          title="The hall is quiet."
+          description="Open a sit and someone may join you."
         >
           <div className="space-y-3">
             <Link
