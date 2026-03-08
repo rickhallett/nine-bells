@@ -1,8 +1,10 @@
 "use server"
 
 import { revalidatePath } from "next/cache"
+import { clerkClient } from "@clerk/nextjs/server"
 import { requireUser } from "@/lib/auth"
 import { getUserByClerkId, cancelSit } from "@/db/queries"
+import { sendSitCancelledEmail } from "@/emails/sit-cancelled"
 
 type ActionResult =
   | { success: true }
@@ -16,10 +18,30 @@ export async function cancelSitAction(
     const user = await getUserByClerkId(clerkUserId)
     if (!user) throw new Error("User not found")
 
-    await cancelSit(sitId, user.id)
+    const { sit, guest } = await cancelSit(sitId, user.id)
 
     revalidatePath("/app")
     revalidatePath("/app/my-sits")
+
+    // Fire-and-forget: only email guest if one exists
+    if (guest) {
+      const clerk = await clerkClient()
+      clerk.users
+        .getUser(guest.clerkUserId)
+        .then((guestClerk) => {
+          const guestEmail = guestClerk.emailAddresses[0]?.emailAddress
+          if (guestEmail) {
+            return sendSitCancelledEmail({
+              guestEmail,
+              guestName: guest.displayName,
+              hostName: user.displayName,
+              sitTime: sit.startsAt,
+              instruction: sit.instructionText,
+            })
+          }
+        })
+        .catch((err) => console.error("[email] cancelSit email failed:", err))
+    }
 
     return { success: true }
   } catch (error) {

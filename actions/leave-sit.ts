@@ -1,8 +1,10 @@
 "use server"
 
 import { revalidatePath } from "next/cache"
+import { clerkClient } from "@clerk/nextjs/server"
 import { requireUser } from "@/lib/auth"
 import { getUserByClerkId, leaveSit } from "@/db/queries"
+import { sendGuestLeftEmail } from "@/emails/guest-left"
 
 type ActionResult =
   | { success: true }
@@ -16,10 +18,28 @@ export async function leaveSitAction(
     const user = await getUserByClerkId(clerkUserId)
     if (!user) throw new Error("User not found")
 
-    await leaveSit(sitId, user.id)
+    const { sit, host } = await leaveSit(sitId, user.id)
 
     revalidatePath("/app")
     revalidatePath("/app/my-sits")
+
+    // Fire-and-forget: email must not block the mutation
+    const clerk = await clerkClient()
+    clerk.users
+      .getUser(host.clerkUserId)
+      .then((hostClerk) => {
+        const hostEmail = hostClerk.emailAddresses[0]?.emailAddress
+        if (hostEmail) {
+          return sendGuestLeftEmail({
+            hostEmail,
+            hostName: host.displayName,
+            guestName: user.displayName,
+            sitTime: sit.startsAt,
+            instruction: sit.instructionText,
+          })
+        }
+      })
+      .catch((err) => console.error("[email] leaveSit email failed:", err))
 
     return { success: true }
   } catch (error) {

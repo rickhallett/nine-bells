@@ -42,6 +42,34 @@ export async function upsertUser(data: {
   return rows[0]
 }
 
+export async function updateUser(
+  userId: string,
+  data: {
+    displayName: string
+    timezone: string
+    bio?: string
+    openToBeginners?: boolean
+  }
+): Promise<User> {
+  const rows = await db
+    .update(users)
+    .set({
+      displayName: data.displayName,
+      timezone: data.timezone,
+      bio: data.bio ?? null,
+      openToBeginners: data.openToBeginners ?? false,
+      updatedAt: new Date(),
+    })
+    .where(eq(users.id, userId))
+    .returning()
+
+  if (!rows[0]) {
+    throw new Error("User not found")
+  }
+
+  return rows[0]
+}
+
 // -- Sit mutations -------------------------------------------------------
 
 export async function createSit(data: {
