@@ -5,7 +5,7 @@
 
 const PALETTE_COUNT = 5
 
-function avatarClass(name: string): string {
+export function avatarClass(name: string): string {
   let hash = 0
   for (let i = 0; i < name.length; i++) {
     hash = name.charCodeAt(i) + ((hash << 5) - hash)
@@ -14,7 +14,7 @@ function avatarClass(name: string): string {
   return `avatar-warm-${idx}`
 }
 
-function initials(name: string): string {
+export function initials(name: string): string {
   return name
     .split(/\s+/)
     .map((w) => w[0])

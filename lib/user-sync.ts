@@ -3,13 +3,13 @@ import { db } from "@/db/client"
 import { users } from "@/db/schema"
 import { trackEvent } from "@/lib/analytics"
 
-interface ClerkUserInfo {
+export interface ClerkUserInfo {
   firstName?: string | null
   lastName?: string | null
   emailAddress?: string | null
 }
 
-function buildDisplayName(info: ClerkUserInfo): string {
+export function buildDisplayName(info: ClerkUserInfo): string {
   const parts = [info.firstName, info.lastName].filter(Boolean)
   if (parts.length > 0) return parts.join(" ")
   if (info.emailAddress) return info.emailAddress.split("@")[0]
