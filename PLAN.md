@@ -588,10 +588,8 @@ Track completion as phases merge. Update after each post-merge verification.
 | Phase | PR | Status | Merged | Post-Verified | Notes |
 |-------|-----|--------|--------|---------------|-------|
 | P0 | 0.1-0.3 | done | 5ebf560 | gate green | Combined: scaffold + gate + app shell |
-| P1 | 1.1 | pending | — | — | |
-| P1 | 1.2 | pending | — | — | |
-| P2 | 2.1 | pending | — | — | |
-| P2 | 2.2 | pending | — | — | |
+| P1 | 1.1-1.2 | done | 5be7a45 | gate green | Combined: schema + queries + validation |
+| P2 | 2.1-2.2 | done | 5be7a45 | gate green | Combined: Clerk + user sync |
 | P3 | 3.1 | pending | — | — | |
 | P3 | 3.2 | pending | — | — | |
 | P4 | 4.1 | pending | — | — | |
