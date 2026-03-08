@@ -596,6 +596,5 @@ Track completion as phases merge. Update after each post-merge verification.
 | P6 | 6.1 | done | 70324eb | gate green | My Sits page |
 | P7 | 7.1 | done | 70324eb | gate green | Profile page |
 | P8 | 8.1-8.2 | done | 70324eb | gate green | Resend + email templates |
-| P9 | 9.1 | pending | — | — | |
-| P9 | 9.2 | pending | — | — | |
-| P10 | 10.1 | pending | — | — | |
+| P9 | 9.1-9.2 | done | 460af94 | gate green | Empty states + analytics + nav + mobile polish |
+| P10 | 10.1 | pending | — | — | Requires Vercel + env config (Captain's manual step) |
