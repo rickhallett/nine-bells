@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test"
 
-test.describe("Board — unauthenticated", () => {
+test.describe("@smoke Board — unauthenticated", () => {
   test("redirects to sign-in or shows auth wall", async ({ page }) => {
     const response = await page.goto("/app")
     // Should not 500 — either shows board (if session cookie) or redirects to auth

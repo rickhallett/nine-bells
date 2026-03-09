@@ -14,14 +14,23 @@ export default defineConfig({
   projects: [
     { name: "setup", testMatch: /.*\.setup\.ts/ },
     {
+      name: "smoke",
+      use: { ...devices["Desktop Chrome"] },
+      grep: /@smoke/,
+      // No storageState — smoke tests don't need auth
+      // No setup dependency — runs independently
+    },
+    {
       name: "chromium",
       use: { ...devices["Desktop Chrome"], storageState: "e2e/.auth/host.json" },
       dependencies: ["setup"],
+      grepInvert: /@smoke/, // Don't re-run smoke tests in the auth'd project
     },
     {
       name: "mobile",
       use: { ...devices["iPhone 14"], storageState: "e2e/.auth/host.json" },
       dependencies: ["setup"],
+      grepInvert: /@smoke/, // Don't re-run smoke tests in the auth'd project
     },
   ],
   webServer: {

@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test"
 
-test.describe("Route smoke tests — no auth required", () => {
+test.describe("@smoke Route smoke tests — no auth required", () => {
   test("landing page responds 200", async ({ page }) => {
     const response = await page.goto("/")
     expect(response?.status()).toBe(200)
@@ -32,7 +32,7 @@ test.describe("Route smoke tests — no auth required", () => {
   })
 })
 
-test.describe("Landing page content", () => {
+test.describe("@smoke Landing page content", () => {
   test("shows ninebells heading", async ({ page }) => {
     await page.goto("/")
     await expect(

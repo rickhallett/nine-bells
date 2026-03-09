@@ -25,7 +25,7 @@ DONE := .done
 LOGS := .logs
 
 # IMPORTANT: Replace with your project's gate command
-GATE := pnpm run typecheck && pnpm run lint && pnpm run test
+GATE := pnpm run typecheck && pnpm run lint && pnpm run test && pnpm run test:e2e:smoke
 
 DARKCAT_PROMPT := scripts/darkcat.md
 DARKCAT_SYNTH_PROMPT := scripts/darkcat-synth.md

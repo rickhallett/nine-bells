@@ -19,11 +19,12 @@ Pure functions with no infrastructure dependencies. These run in <1s and are the
 |------|-----------|-------|---------|
 | `lib/sit-utils.test.ts` | `isAvailableNow`, `isExpired`, constants | 14 | `vi.useFakeTimers` only |
 | `lib/time.test.ts` | `formatSitTime`, `formatRelativeTime`, `formatTimezone` | 11 | `vi.useFakeTimers` for first two; `formatTimezone` is fully pure |
-| `lib/validation.test.ts` | 3 Zod schemas via `.safeParse()` | 18 | `vi.useFakeTimers` for future-date refinement |
+| `lib/validation.test.ts` | 3 Zod schemas via `.safeParse()` | 24 | `vi.useFakeTimers` for future-date refinement |
 | `lib/user-sync.test.ts` | `buildDisplayName` | 7 | None — pure function |
 | `components/avatar.test.ts` | `initials`, `avatarClass` | 10 | None — pure functions |
+| `lib/html.test.ts` | `escapeHtml` | 8 | None — pure function |
 
-**Total: 60 unit tests across 5 files.**
+**Total: 74 unit tests across 6 files.**
 
 Coverage focus: boundary conditions (10-minute available-now window, 20-minute expiry), input validation edge cases (empty strings, max lengths, invalid durations), and deterministic behaviour (avatar colour stability).
 
@@ -50,27 +51,31 @@ Coverage focus: happy path, auth failure, user-not-found, validation rejection, 
 Browser-level tests against a running dev server. Two modes:
 
 1. **Unauthenticated** — smoke tests that routes respond without 500s, landing page loads, 404 works. These run in CI without Clerk credentials.
-2. **Authenticated** — board content, sit creation flow, join flow. These require `E2E_CLERK_USER_ID` env var and are skipped when not set.
+2. **Authenticated** — board content, sit creation flow, join/leave/cancel lifecycle. These use `@clerk/testing` with `storageState` for programmatic sign-in (see SD-007, WI-1).
 
 | File | Tests | Auth Required |
 |------|-------|---------------|
-| `e2e/navigation.spec.ts` | 6 | No |
-| `e2e/board.spec.ts` | 7 | Partial (2 unauthenticated, 5 authenticated) |
-| `e2e/create-sit.spec.ts` | 3 | Yes |
+| `e2e/navigation.spec.ts` | 12 | No |
+| `e2e/board.spec.ts` | 16 | Partial (1 unauthenticated, 15 authenticated) |
+| `e2e/create-sit.spec.ts` | 14 | Yes |
+| `e2e/my-sits.spec.ts` | 12 | Yes |
+| `e2e/profile.spec.ts` | 11 | Yes |
+| `e2e/sit-lifecycle.spec.ts` | 8 | Yes (two-user) |
 
-**Total: 16 E2E tests across 3 files.**
+**Total: 73 E2E tests across 6 files.**
 
 Browsers: Chromium (desktop) + iPhone 14 (mobile). Dev server auto-started by Playwright.
 
 ## Gate Integration
 
 ```
-pnpm test         → vitest run (unit + integration, ~1s)
-pnpm test:e2e     → playwright test (requires running dev server or auto-starts)
-make gate         → typecheck + lint + vitest (fast, no browser needed)
+pnpm test           → vitest run (unit + integration, ~1s)
+pnpm test:e2e       → playwright test (requires running dev server or auto-starts)
+pnpm test:e2e:smoke → playwright smoke subset (unauthenticated routes only)
+make gate           → typecheck + lint + vitest + e2e smoke
 ```
 
-The gate runs unit + integration tests. E2E tests run separately (`pnpm test:e2e`) because they need a dev server and browser, making them too slow/heavy for the default gate loop.
+The gate runs unit + integration tests and smoke E2E tests (`pnpm test:e2e:smoke`). Full E2E tests run separately (`pnpm test:e2e`) because authenticated tests need Clerk credentials and are too slow/heavy for the default gate loop.
 
 ## What Is NOT Tested (and Why)
 
@@ -84,9 +89,11 @@ The gate runs unit + integration tests. E2E tests run separately (`pnpm test:e2e
 - `vitest.config.ts` — Vitest config with `@/` path alias and exclusions
 - `playwright.config.ts` — Chromium + mobile, auto-start dev server
 - `package.json` — `test`, `test:watch`, `test:e2e`, `test:e2e:ui` scripts
-- `lib/sit-utils.test.ts`, `lib/time.test.ts`, `lib/validation.test.ts`, `lib/user-sync.test.ts` — unit tests
+- `lib/sit-utils.test.ts`, `lib/time.test.ts`, `lib/validation.test.ts`, `lib/user-sync.test.ts`, `lib/html.test.ts` — unit tests
 - `components/avatar.test.ts` — unit tests
-- `actions/create-sit.test.ts`, `actions/join-sit.test.ts` — integration tests
-- `e2e/navigation.spec.ts`, `e2e/board.spec.ts`, `e2e/create-sit.spec.ts` — E2E tests
+- `actions/create-sit.test.ts`, `actions/join-sit.test.ts`, `actions/leave-sit.test.ts`, `actions/cancel-sit.test.ts`, `actions/update-profile.test.ts` — action orchestration tests
+- `e2e/navigation.spec.ts`, `e2e/board.spec.ts`, `e2e/create-sit.spec.ts`, `e2e/my-sits.spec.ts`, `e2e/profile.spec.ts`, `e2e/sit-lifecycle.spec.ts` — E2E tests
+- `e2e/auth.setup.ts` — Clerk testing token auth setup
+- `e2e/fixtures.ts` — Two-user test fixtures
 - `lib/user-sync.ts` — exported `buildDisplayName` and `ClerkUserInfo` for testability
 - `components/avatar.tsx` — exported `avatarClass` and `initials` for testability

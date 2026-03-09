@@ -11,6 +11,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
+    "test:e2e:smoke": "playwright test --project smoke",
     "test:e2e:ui": "playwright test --ui",
     "gate": "pnpm run typecheck && pnpm run lint && pnpm run test",
     "db:migrate": "npx tsx db/migrate.ts",
