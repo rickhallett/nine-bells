@@ -44,6 +44,13 @@ recent_decisions:
     tag: e2e-auth-infrastructure
     date: 2026-03-09
     summary: "Five work items to close E2E gaps: WI-1 Clerk auth+storageState, WI-2 two-user fixture, WI-3 lifecycle flow tests (E4-E10,E15-E17), WI-4 smoke E2E in gate, WI-5 SD-006 update. Playwright MCP evaluated and rejected — standard @playwright/test is the right tool."
-    status: SPEC
+    status: DONE
     ref: docs/decisions/SD-007-e2e-auth-infrastructure.md
     backlog: [BL-001, BL-002, BL-003, BL-004, BL-005]
+
+  - id: SD-008
+    tag: production-walkthrough
+    date: 2026-03-09
+    summary: "45-item production readiness checklist across 9 phases. Human+machine walkthrough. Blockers: Phase 1 (infra provisioning) and email from-address verification. Estimated 45-60 min human time."
+    status: ACTIVE
+    ref: docs/decisions/SD-008-production-walkthrough.md
