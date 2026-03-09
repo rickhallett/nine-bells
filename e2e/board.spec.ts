@@ -9,11 +9,6 @@ test.describe("Board — unauthenticated", () => {
 })
 
 test.describe("Board — authenticated", () => {
-  test.skip(
-    () => !process.env.E2E_CLERK_USER_ID,
-    "E2E_CLERK_USER_ID not set"
-  )
-
   test("shows the ninebells heading and subline", async ({ page }) => {
     await page.goto("/app")
     await expect(page.getByRole("heading", { name: "ninebells" })).toBeVisible({

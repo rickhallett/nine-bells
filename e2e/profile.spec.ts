@@ -1,11 +1,6 @@
 import { test, expect } from "@playwright/test"
 
 test.describe("Profile page — authenticated", () => {
-  test.skip(
-    () => !process.env.E2E_CLERK_USER_ID,
-    "E2E_CLERK_USER_ID not set"
-  )
-
   test("shows 'Profile' heading", async ({ page }) => {
     await page.goto("/app/profile")
     await expect(

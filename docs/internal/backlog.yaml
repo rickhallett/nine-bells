@@ -1,3 +1,51 @@
-# Backlog — managed by scripts/backlog.py
-# Do not edit directly. Use: python3 scripts/backlog.py <command>
-[]
+- id: BL-001
+  title: 'WI-1: Playwright auth infrastructure — Clerk testing tokens + storageState
+    setup'
+  status: open
+  priority: high
+  tags:
+  - auth
+  epic: null
+  created: '2026-03-09T17:08:42.100411+00:00'
+  closed: null
+  reason: null
+- id: BL-002
+  title: 'WI-2: Two-user E2E fixture — hostPage/guestPage for dyad flows'
+  status: open
+  priority: high
+  tags:
+  - e2e
+  epic: null
+  created: '2026-03-09T17:08:42.957554+00:00'
+  closed: null
+  reason: null
+- id: BL-003
+  title: 'WI-3: E2E flow tests — join/leave/cancel lifecycle (E4,E6-E10,E15-E17)'
+  status: open
+  priority: high
+  tags:
+  - e2e
+  epic: null
+  created: '2026-03-09T17:08:44.288757+00:00'
+  closed: null
+  reason: null
+- id: BL-004
+  title: 'WI-4: Add smoke E2E to gate — unauthenticated tests in make gate'
+  status: open
+  priority: medium
+  tags:
+  - gate
+  epic: null
+  created: '2026-03-09T17:08:45.186738+00:00'
+  closed: null
+  reason: null
+- id: BL-005
+  title: 'WI-5: Update SD-006 — test counts stale (reports 111, actual 168)'
+  status: open
+  priority: medium
+  tags:
+  - docs
+  epic: null
+  created: '2026-03-09T17:08:46.045759+00:00'
+  closed: null
+  reason: null

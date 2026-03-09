@@ -69,11 +69,6 @@ test.describe("Landing page content", () => {
 })
 
 test.describe("Navigation flow — authenticated", () => {
-  test.skip(
-    () => !process.env.E2E_CLERK_USER_ID,
-    "E2E_CLERK_USER_ID not set"
-  )
-
   test("bottom nav navigates to My Sits", async ({ page }) => {
     await page.goto("/app")
     await page.getByRole("link", { name: "My Sits" }).click()

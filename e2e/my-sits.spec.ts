@@ -1,11 +1,6 @@
 import { test, expect } from "@playwright/test"
 
 test.describe("My Sits page — authenticated", () => {
-  test.skip(
-    () => !process.env.E2E_CLERK_USER_ID,
-    "E2E_CLERK_USER_ID not set"
-  )
-
   test("shows 'My Sits' heading", async ({ page }) => {
     await page.goto("/app/my-sits")
     await expect(
@@ -79,11 +74,6 @@ test.describe("My Sits page — authenticated", () => {
 })
 
 test.describe("My Sits — empty state", () => {
-  test.skip(
-    () => !process.env.E2E_CLERK_USER_ID,
-    "E2E_CLERK_USER_ID not set"
-  )
-
   // Empty state shows when user has zero sits
   // This is hard to test deterministically without controlling DB state
   // So we test the structure exists

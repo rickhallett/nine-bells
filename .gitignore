@@ -51,5 +51,8 @@ __pycache__/
 *.pyc
 .venv/
 
+# Playwright auth state
+e2e/.auth/
+
 # clerk configuration (can include secrets)
 /.clerk/

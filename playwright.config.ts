@@ -12,13 +12,16 @@ export default defineConfig({
     trace: "on-first-retry",
   },
   projects: [
+    { name: "setup", testMatch: /.*\.setup\.ts/ },
     {
       name: "chromium",
-      use: { ...devices["Desktop Chrome"] },
+      use: { ...devices["Desktop Chrome"], storageState: "e2e/.auth/host.json" },
+      dependencies: ["setup"],
     },
     {
       name: "mobile",
-      use: { ...devices["iPhone 14"] },
+      use: { ...devices["iPhone 14"], storageState: "e2e/.auth/host.json" },
+      dependencies: ["setup"],
     },
   ],
   webServer: {

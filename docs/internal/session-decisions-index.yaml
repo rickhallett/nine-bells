@@ -38,3 +38,12 @@ recent_decisions:
     date: 2026-03-08
     summary: "Three-tier testing: 60 unit (vitest, pure functions), 15 integration (vitest + mocks on server actions), 16 E2E (playwright, chromium + mobile). Gate runs unit+integration only (~1s). E2E separate."
     status: ACTIVE
+    note: "Counts stale — actual: 60 unit + 35 action + 65 E2E = 168 total. WI-5 will update."
+
+  - id: SD-007
+    tag: e2e-auth-infrastructure
+    date: 2026-03-09
+    summary: "Five work items to close E2E gaps: WI-1 Clerk auth+storageState, WI-2 two-user fixture, WI-3 lifecycle flow tests (E4-E10,E15-E17), WI-4 smoke E2E in gate, WI-5 SD-006 update. Playwright MCP evaluated and rejected — standard @playwright/test is the right tool."
+    status: SPEC
+    ref: docs/decisions/SD-007-e2e-auth-infrastructure.md
+    backlog: [BL-001, BL-002, BL-003, BL-004, BL-005]
